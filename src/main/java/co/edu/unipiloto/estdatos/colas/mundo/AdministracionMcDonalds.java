@@ -1,6 +1,7 @@
 package co.edu.unipiloto.estdatos.colas.mundo;
 
 import co.edu.unipiloto.estdatos.colas.estructuras.Cola;
+import co.edu.unipiloto.estdatos.colas.estructuras.ListaDobleEncadenada;
 import java.util.Iterator;
 
 
@@ -8,7 +9,7 @@ import java.util.Iterator;
 public class AdministracionMcDonalds{
 	
 	private Cola<String> colaClientes;
-	private Cola<Pedido> colaPedidos;
+	private ListaDobleEncadenada<Pedido> listaPedidos;
 	public enum Pedido{
 		NUGGETS ("Combo Nuggets",200),
 		BIGMAC ("Combo Bigmac", 300),
@@ -31,7 +32,7 @@ public class AdministracionMcDonalds{
 	
 	public AdministracionMcDonalds(){
 		colaClientes=new Cola<String>();
-		colaPedidos=new Cola<Pedido>();
+		listaPedidos=new ListaDobleEncadenada <Pedido>();
 	}
 	
 	public void agregarCliente(String nombre){
@@ -44,12 +45,12 @@ public class AdministracionMcDonalds{
 		} catch (InterruptedException e) {
 
 		}
-		colaPedidos.encolar(pedido);
+		listaPedidos.addLast(pedido);
 		return colaClientes.desencolar();
 	}
 	
 	public String entregarPedido(){
-		Pedido p = colaPedidos.desencolar();
+		Pedido p = listaPedidos.removeFirst();
 		try {
 			Thread.sleep(p.getTiempoProceso());
 		} catch (InterruptedException e) {
@@ -63,7 +64,7 @@ public class AdministracionMcDonalds{
 	}
 	
 	public int pedidosEnEspera(){
-		return colaPedidos.tamanio();
+		return listaPedidos.size();
 	}
 	
 	public Iterator<String> clientes(){
@@ -71,7 +72,7 @@ public class AdministracionMcDonalds{
 	}
 	
 	public Iterator<Pedido> pedidos(){
-		return colaPedidos.iterator();
+		return listaPedidos.iterator ();
 	}
 
 }
